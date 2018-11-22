@@ -6,7 +6,7 @@ Linear differential equations (LDEs) of the kind
 #+BEGIN_EXAMPLE
   uₜ = L(t)u
 #+END_EXAMPLE
-has the solution
+have the solution
 #+BEGIN_EXAMPLE
   u(t) = 𝒰(t,0)u(0)
 #+END_EXAMPLE
@@ -31,7 +31,23 @@ sub-operators separately, and arranging them in such a way that the
 error introduced by this /splitting/ is minimized. A classical example
 is the so-called /Strang splitting/, in which
 #+BEGIN_EXAMPLE
-exp[Δt(A+B)] = exp(B/2) exp(ΔtA) exp(ΔtB/2) + 𝒪{exp(Δt³[A,B])},
+exp[Δt(A+B)] = exp(ΔtB/2) exp(ΔtA) exp(ΔtB/2) + 𝒪{exp(Δt³[A,B])},
 #+END_EXAMPLE
 where =[A,B]≝AB-BA= is the /commutator/ between =A= and =B=, which is,
 in general, non-zero.
+
+There are thus a few components to exponential operators:
+1) identifying a good splitting of =L=
+2) integrating the sub-operators over the time-step to high-enough
+   order
+   - For operators of the form =A(t) = f(t)B=, where =B= is
+     time-independent and =f(t)= is a scalar function, it is enough to
+     integrate =f(t)=.
+3) implementing efficient exponentiation of the sub-operators
+   separately
+   - We here further adopt the following scheme: =exp(μΔtA)=, where
+     =Δt= is the actual time-step and =μ= is an additional scalar. The
+     reason for this is that if =A= is e.g. Hermitian, and =μ= is
+     imaginary, we can still use the Lanczos method for computing a
+     Krylov subspace and apply =μ= at a later stage.
+4) arranging the different exponentials properly
