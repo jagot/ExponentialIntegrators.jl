@@ -1,0 +1,7 @@
+name = "ExponentialIntegrators"
+uuid = "2f5b1a54-ee79-11e8-167d-0b0cfba59822"
+authors = ["Stefanos Carlström <stefanos.carlstrom@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+ExponentialUtilities = "d4d017d3-3776-5f7e-afef-a10c40355c18"

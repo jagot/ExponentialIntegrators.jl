@@ -1,0 +1,37 @@
+#+TITLE: ExponentialIntegrators.jl
+#+AUTHOR: Stefanos Carlström
+#+EMAIL: stefanos.carlstrom@gmail.com
+
+Linear differential equations (LDEs) of the kind
+#+BEGIN_EXAMPLE
+  uₜ = L(t)u
+#+END_EXAMPLE
+has the solution
+#+BEGIN_EXAMPLE
+  u(t) = 𝒰(t,0)u(0)
+#+END_EXAMPLE
+where =𝒰(t,0)= is the /propagator/ that takes =u= from time =0= to
+time =t=. The propagator can formally be written as
+#+BEGIN_EXAMPLE
+  𝒰(t,0) = exp[∫_0^t dt L(t)].
+#+END_EXAMPLE
+In practice, the propagator is approximated via time-stepping:
+#+BEGIN_EXAMPLE
+  𝒰(t,0) = exp(Lₙ)exp(Lₙ₋₁)...exp(L₁),
+#+END_EXAMPLE
+where =Lᵢ= is an approximation of the integral of the operator =L=
+over the time interval =[(i-1)Δt,iΔt]=, where =Δt= is the time-step.
+
+Usually, =L= can be written as a sum of many operators:
+#+BEGIN_EXAMPLE
+L = A + B + C + D ...
+#+END_EXAMPLE
+We may then further approximate =exp(Lᵢ)= by exponentiating the
+sub-operators separately, and arranging them in such a way that the
+error introduced by this /splitting/ is minimized. A classical example
+is the so-called /Strang splitting/, in which
+#+BEGIN_EXAMPLE
+exp[Δt(A+B)] = exp(B/2) exp(ΔtA) exp(ΔtB/2) + 𝒪{exp(Δt³[A,B])},
+#+END_EXAMPLE
+where =[A,B]≝AB-BA= is the /commutator/ between =A= and =B=, which is,
+in general, non-zero.
